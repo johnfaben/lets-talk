@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation Starters</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Let's Talk!</h1>
+            <p class="subtitle">Conversation starters for parents &amp; kids</p>
+        </header>
+
+        <div class="card-wrapper">
+            <div class="card" id="question-card">
+                <p class="question-text" id="question-text">Loading...</p>
+                <span class="badge" id="source-badge"></span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-down" id="btn-down" title="Thumbs down" aria-label="Thumbs down">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+                    <path d="M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM12 17.3c-.72 0-1.3-.58-1.3-1.3s.58-1.3 1.3-1.3 1.3.58 1.3 1.3-.58 1.3-1.3 1.3zm1-4.3h-2V7h2v6z"/>
+                </svg>
+            </button>
+            <button class="btn btn-skip" id="btn-skip" title="Skip" aria-label="Skip">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+                    <path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/>
+                </svg>
+            </button>
+            <button class="btn btn-up" id="btn-up" title="Thumbs up" aria-label="Thumbs up">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+            </button>
+        </div>
+
+        <button class="btn-generate" id="btn-generate">
+            ✨ Generate new questions
+        </button>
+
+        <div class="stats" id="stats"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

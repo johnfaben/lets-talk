@@ -1,0 +1,220 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #f0f7ff;
+    --card-bg: #ffffff;
+    --primary: #4a90d9;
+    --up: #4caf50;
+    --down: #ef5350;
+    --skip: #90a4ae;
+    --generate: #7c4dff;
+    --text: #2c3e50;
+    --text-light: #607d8b;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --radius: 20px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.container {
+    max-width: 480px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+header {
+    text-align: center;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.subtitle {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+}
+
+/* Card */
+.card-wrapper {
+    width: 100%;
+    perspective: 600px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2.5rem 2rem;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.card.swipe-left {
+    transform: translateX(-120%) rotate(-15deg);
+    opacity: 0;
+}
+
+.card.swipe-right {
+    transform: translateX(120%) rotate(15deg);
+    opacity: 0;
+}
+
+.card.swipe-up {
+    transform: translateY(-120%);
+    opacity: 0;
+}
+
+.question-text {
+    font-size: 1.35rem;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    background: #e8f5e9;
+    color: #388e3c;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.badge.generated {
+    background: #ede7f6;
+    color: #5e35b1;
+}
+
+.badge:empty {
+    display: none;
+}
+
+/* Action buttons */
+.actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+    transform: scale(0.92);
+}
+
+.btn-up {
+    background: var(--up);
+    color: white;
+}
+
+.btn-down {
+    background: var(--down);
+    color: white;
+}
+
+.btn-skip {
+    background: var(--skip);
+    color: white;
+    width: 52px;
+    height: 52px;
+}
+
+/* Generate button */
+.btn-generate {
+    background: var(--generate);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    box-shadow: 0 2px 8px rgba(124, 77, 255, 0.3);
+}
+
+.btn-generate:active {
+    transform: scale(0.96);
+}
+
+.btn-generate:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Stats */
+.stats {
+    color: var(--text-light);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+/* Fade-in for new card */
+@keyframes fade-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.card.entering {
+    animation: fade-in 0.3s ease;
+}
+
+/* Loading spinner on generate button */
+.btn-generate.loading::after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
