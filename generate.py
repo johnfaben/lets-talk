@@ -1,13 +1,13 @@
 import os
-from google import genai
+import httpx
 from models import db, Question
 
 
 def generate_questions():
-    """Use Gemini to generate new questions based on top-rated ones."""
-    api_key = os.environ.get("GEMINI_API_KEY")
+    """Use Groq (Llama 3) to generate new questions based on top-rated ones."""
+    api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
-        raise RuntimeError("GEMINI_API_KEY not set")
+        raise RuntimeError("GROQ_API_KEY not set")
 
     # Get top-rated questions as style examples
     top_questions = (
@@ -33,14 +33,21 @@ Rules:
 - Mix of silly/fun, hypothetical, and slightly deeper/reflective questions
 - Keep them concise (one sentence each)"""
 
-    client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=prompt,
+    response = httpx.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        headers={"Authorization": f"Bearer {api_key}"},
+        json={
+            "model": "llama-3.1-8b-instant",
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.9,
+        },
+        timeout=30,
     )
+    response.raise_for_status()
+    text = response.json()["choices"][0]["message"]["content"]
 
     new_questions = []
-    for line in response.text.strip().splitlines():
+    for line in text.strip().splitlines():
         line = line.strip().lstrip("-•0123456789.) ")
         if len(line) > 10 and line.endswith("?"):
             existing = Question.query.filter_by(text=line).first()
