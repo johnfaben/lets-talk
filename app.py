@@ -29,10 +29,11 @@ def index():
 def get_question():
     session_id = request.args.get("session_id", "")
 
-    # Get IDs this session already rated
+    # Get IDs this session already rated (skips don't count)
     rated_ids = (
         db.session.query(Rating.question_id)
         .filter_by(session_id=session_id)
+        .filter(Rating.rating.in_(("up", "down")))
         .subquery()
     )
 
