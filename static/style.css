@@ -9,6 +9,7 @@
     --card-bg: #ffffff;
     --primary: #4a90d9;
     --up: #4caf50;
+    --love: #e91e63;
     --down: #ef5350;
     --skip: #90a4ae;
     --generate: #7c4dff;
@@ -146,6 +147,11 @@ h1 {
 
 .btn-up {
     background: var(--up);
+    color: white;
+}
+
+.btn-love {
+    background: var(--love);
     color: white;
 }
 
