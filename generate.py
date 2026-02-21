@@ -1,5 +1,5 @@
 import os
-import google.generativeai as genai
+from google import genai
 from models import db, Question
 
 
@@ -33,9 +33,11 @@ Rules:
 - Mix of silly/fun, hypothetical, and slightly deeper/reflective questions
 - Keep them concise (one sentence each)"""
 
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.0-flash")
-    response = model.generate_content(prompt)
+    client = genai.Client(api_key=api_key)
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=prompt,
+    )
 
     new_questions = []
     for line in response.text.strip().splitlines():
