@@ -33,7 +33,7 @@ def get_question():
     rated_ids = (
         db.session.query(Rating.question_id)
         .filter_by(session_id=session_id)
-        .filter(Rating.rating.in_(("up", "down", "love")))
+        .filter(Rating.rating.in_(("up", "down")))
         .subquery()
     )
 
@@ -87,17 +87,15 @@ def rate_question():
     if not all([question_id, session_id, rating_value]):
         return jsonify({"error": "Missing fields"}), 400
 
-    if rating_value not in ("up", "down", "skip", "love"):
+    if rating_value not in ("up", "down", "skip"):
         return jsonify({"error": "Invalid rating"}), 400
 
     question = db.session.get(Question, question_id)
     if not question:
         return jsonify({"error": "Question not found"}), 404
 
-    # Update denormalized counts (love = double thumbs up)
-    if rating_value == "love":
-        question.thumbs_up_count += 2
-    elif rating_value == "up":
+    # Update denormalized counts
+    if rating_value == "up":
         question.thumbs_up_count += 1
     elif rating_value == "down":
         question.thumbs_down_count += 1

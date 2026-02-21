@@ -20,7 +20,6 @@
   const btnUp = document.getElementById("btn-up");
   const btnDown = document.getElementById("btn-down");
   const btnSkip = document.getElementById("btn-skip");
-  const btnLove = document.getElementById("btn-love");
   const statsEl = document.getElementById("stats");
 
   async function fetchQuestion() {
@@ -55,7 +54,6 @@
     btnUp.disabled = !enabled;
     btnDown.disabled = !enabled;
     btnSkip.disabled = !enabled;
-    btnLove.disabled = !enabled;
   }
 
   async function rate(rating) {
@@ -64,7 +62,7 @@
 
     // Pick animation direction
     const direction =
-      (rating === "up" || rating === "love") ? "swipe-right" : rating === "down" ? "swipe-left" : "swipe-up";
+      rating === "up" ? "swipe-right" : rating === "down" ? "swipe-left" : "swipe-up";
     cardEl.classList.add(direction);
 
     // Send rating
@@ -96,7 +94,6 @@
   btnUp.addEventListener("click", () => rate("up"));
   btnDown.addEventListener("click", () => rate("down"));
   btnSkip.addEventListener("click", () => rate("skip"));
-  btnLove.addEventListener("click", () => rate("love"));
 
   // Keyboard shortcuts
   document.addEventListener("keydown", (e) => {
