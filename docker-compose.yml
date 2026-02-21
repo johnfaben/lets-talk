@@ -1,27 +1,13 @@
 services:
   app:
     build: .
-    expose:
-      - "8099"
+    ports:
+      - "8099:8099"
     volumes:
       - db-data:/app/instance
     env_file:
       - .env
     restart: unless-stopped
 
-  caddy:
-    image: caddy:2
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy-data:/data
-      - caddy-config:/config
-    restart: unless-stopped
-
 volumes:
   db-data:
-  caddy-data:
-  caddy-config:

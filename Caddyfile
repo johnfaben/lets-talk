@@ -1,3 +1,0 @@
-letstalk.johnfaben.com {
-	reverse_proxy app:8099
-}
