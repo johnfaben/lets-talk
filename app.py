@@ -1,4 +1,5 @@
 import os
+import random
 import logging
 import threading
 from flask import Flask, jsonify, request, render_template
@@ -60,6 +61,10 @@ def get_question():
 
     if not question:
         return jsonify({"error": "No questions available"}), 404
+
+    # 10% chance to generate new questions in the background
+    if random.random() < 0.1:
+        _trigger_generation()
 
     question.times_shown += 1
     db.session.commit()
