@@ -1,4 +1,6 @@
 import os
+import logging
+import threading
 from flask import Flask, jsonify, request, render_template
 from dotenv import load_dotenv
 from models import db, Question, Rating
@@ -44,8 +46,9 @@ def get_question():
         .first()
     )
 
-    # If all questions rated, pick a random well-liked one
+    # If all questions rated, trigger background generation and fall back
     if not question:
+        _trigger_generation()
         question = (
             Question.query
             .order_by(
@@ -102,15 +105,29 @@ def rate_question():
     return jsonify({"ok": True})
 
 
-@app.post("/api/generate")
-def generate():
-    from generate import generate_questions
+_generating = False
 
-    try:
-        new_questions = generate_questions()
-        return jsonify({"generated": new_questions, "count": len(new_questions)})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+
+def _trigger_generation():
+    """Generate new questions in a background thread (if not already running)."""
+    global _generating
+    if _generating:
+        return
+    _generating = True
+
+    def run():
+        global _generating
+        try:
+            from generate import generate_questions
+            with app.app_context():
+                generate_questions()
+                logging.info("Auto-generated new questions")
+        except Exception as e:
+            logging.warning("Auto-generation failed: %s", e)
+        finally:
+            _generating = False
+
+    threading.Thread(target=run, daemon=True).start()
 
 
 # CLI command to seed the database

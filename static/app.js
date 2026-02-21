@@ -20,14 +20,13 @@
   const btnUp = document.getElementById("btn-up");
   const btnDown = document.getElementById("btn-down");
   const btnSkip = document.getElementById("btn-skip");
-  const btnGenerate = document.getElementById("btn-generate");
   const statsEl = document.getElementById("stats");
 
   async function fetchQuestion() {
     try {
       const res = await fetch(`/api/question?session_id=${encodeURIComponent(sessionId)}`);
       if (!res.ok) {
-        textEl.textContent = "No more questions! Try generating new ones.";
+        textEl.textContent = "No more questions right now — check back soon!";
         badgeEl.textContent = "";
         currentQuestion = null;
         return;
@@ -91,37 +90,10 @@
     statsEl.textContent = `Questions rated this session: ${ratedCount}`;
   }
 
-  async function generateQuestions() {
-    btnGenerate.disabled = true;
-    btnGenerate.classList.add("loading");
-    btnGenerate.textContent = "Generating";
-
-    try {
-      const res = await fetch("/api/generate", { method: "POST" });
-      const data = await res.json();
-      if (data.error) {
-        alert("Generation failed: " + data.error);
-      } else {
-        btnGenerate.textContent = `✨ Generated ${data.count} new questions!`;
-        // If no current question, load one
-        if (!currentQuestion) fetchQuestion();
-        setTimeout(() => {
-          btnGenerate.textContent = "✨ Generate new questions";
-        }, 3000);
-      }
-    } catch {
-      alert("Couldn't reach the server.");
-    } finally {
-      btnGenerate.disabled = false;
-      btnGenerate.classList.remove("loading");
-    }
-  }
-
   // Event listeners
   btnUp.addEventListener("click", () => rate("up"));
   btnDown.addEventListener("click", () => rate("down"));
   btnSkip.addEventListener("click", () => rate("skip"));
-  btnGenerate.addEventListener("click", generateQuestions);
 
   // Keyboard shortcuts
   document.addEventListener("keydown", (e) => {
