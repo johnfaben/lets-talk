@@ -67,13 +67,14 @@ def get_question():
     if random.random() < 0.1:
         _trigger_generation()
 
+    is_new = question.times_shown == 0
     question.times_shown += 1
     db.session.commit()
 
     return jsonify({
         "id": question.id,
         "text": question.text,
-        "source": question.source,
+        "is_new": is_new,
     })
 
 

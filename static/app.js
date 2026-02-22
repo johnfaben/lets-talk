@@ -45,8 +45,8 @@
     void cardEl.offsetWidth;
     cardEl.classList.add("entering");
     textEl.textContent = q.text;
-    badgeEl.textContent = q.source === "generated" ? "AI generated" : "";
-    badgeEl.className = "badge" + (q.source === "generated" ? " generated" : "");
+    badgeEl.textContent = q.is_new ? "New" : "";
+    badgeEl.className = "badge" + (q.is_new ? " new" : "");
     setButtonsEnabled(true);
   }
 
