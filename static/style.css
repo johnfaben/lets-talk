@@ -5,15 +5,15 @@
 }
 
 :root {
-    --bg: #f0f7ff;
+    --bg: #d8d8d8;
     --card-bg: #ffffff;
-    --primary: #4a90d9;
+    --primary: #4a4a4a;
     --up: #4caf50;
     --down: #ef5350;
-    --skip: #90a4ae;
-    --generate: #7c4dff;
-    --text: #2c3e50;
-    --text-light: #607d8b;
+    --skip: #888888;
+    --generate: #4a4a4a;
+    --text: #333333;
+    --text-light: #888888;
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     --radius: 20px;
 }
@@ -103,16 +103,16 @@ h1 {
     font-size: 0.7rem;
     padding: 0.2rem 0.5rem;
     border-radius: 8px;
-    background: #e8f5e9;
-    color: #388e3c;
+    background: #ebebeb;
+    color: #555555;
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 0.5px;
 }
 
 .badge.new {
-    background: #fff3e0;
-    color: #e65100;
+    background: #e5e5e5;
+    color: #333333;
 }
 
 .badge:empty {
@@ -172,7 +172,7 @@ h1 {
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.15s ease, opacity 0.15s ease;
-    box-shadow: 0 2px 8px rgba(124, 77, 255, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-generate:active {
